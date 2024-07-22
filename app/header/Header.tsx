@@ -1,6 +1,10 @@
+"use client";
+
 import React from 'react'
+import { useWalletProviderContext } from './wallet'
 
 function Header() {
+  const { wallet, connectWallet } = useWalletProviderContext()
   return (
     <div className='bg-black'>
       <div className='flex justify-between px-8 py-4 text-white font-serif'>
@@ -13,7 +17,13 @@ function Header() {
             <li>Coin Market</li>
             <li>Buy Woox Token</li>
           </ul>
-          <button>fff</button>
+          <button onClick={connectWallet}>
+            {wallet ? (
+              <span>Connected: {wallet.slice(0, 6)}...{wallet.slice(-4)}</span>
+            ) : (
+              <span>Connect Wallet</span>
+            )}
+          </button>
         </div>
       </div>
     </div>
