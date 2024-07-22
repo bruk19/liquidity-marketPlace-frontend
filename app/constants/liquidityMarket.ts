@@ -1,4 +1,4 @@
-export const LiquidityMarketContractAddress = "0xab377ff8Ee666834dd0C1ccaA9d22553cB4f784b"
+export const liquidityMarketContractAddress = "0xab377ff8Ee666834dd0C1ccaA9d22553cB4f784b"
 export const liquidityMarketAbi = [
     {
       "inputs": [
