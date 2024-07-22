@@ -1,3 +1,4 @@
+import { AbstractProvider } from "ethers";
 import { BrowserProvider } from "ethers";
 import { ethers } from "ethers";
 
@@ -7,7 +8,7 @@ declare global {
   }
 }
 
-let provider;
+let provider: AbstractProvider;
 let web3: BrowserProvider;
 
 export async function setUpWeb3() {
