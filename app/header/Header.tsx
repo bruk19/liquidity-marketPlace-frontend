@@ -17,9 +17,9 @@ function Header() {
 
   return (
     <div className='bg-black'>
-      <div className='flex justify-between px-8 py-4 text-white font-serif'>
+      <div className='flex justify-between items-center px-8 py-4 text-white font-serif'>
         <div className='ml-6 font-serif text-lg'>Wooox</div>
-        <div className='flex mr-4'>
+        <div className='flex mr-4 items-center'>
           <ul className='flex gap-8 mr-8'>
             <li>Home</li>
             <li>Add Pool</li>
@@ -27,7 +27,7 @@ function Header() {
             <li>Coin Market</li>
             <li>Buy Woox Token</li>
           </ul>
-          <button className='text-orange px-2 py-1 rounded-2' onClick={handleConnectWallet}>
+          <button className='text-orange-400 border border-orange-400 px-4 py-2 rounded-lg' onClick={handleConnectWallet}>
             {wallet ? (
               <span>{wallet.slice(0, 6)}...{wallet.slice(-4)}</span>
             ) : (
