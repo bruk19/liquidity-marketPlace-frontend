@@ -18,6 +18,13 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null)
   const [chainId, setChainId] = useState<number | undefined>(undefined)
 
+  useEffect(() => {
+    // Check local storage for wallet address on mount
+    const storedWalletAddress = localStorage.getItem('walletAddress');
+    if (storedWalletAddress) {
+      setWalletAddress(storedWalletAddress);
+    }
+  }, []);
 
   const connectWallet = async () => {
     try {
@@ -34,6 +41,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
         const wallet = await signer.getAddress();
         setWalletAddress(wallet);
 
+        localStorage.setItem('walletAddress', wallet);
 
         const network = await web3Instance.getNetwork();
         setChainId(Number(network.chainId));
