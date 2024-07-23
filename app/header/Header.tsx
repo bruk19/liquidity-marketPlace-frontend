@@ -27,7 +27,7 @@ function Header() {
             <li>Coin Market</li>
             <li>Buy Woox Token</li>
           </ul>
-          <button className='text-orange-400 border border-orange-400 px-4 py-2 rounded-lg' onClick={handleConnectWallet}>
+          <button className='text-orange-400 border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={handleConnectWallet}>
             {wallet ? (
               <span>{wallet.slice(0, 6)}...{wallet.slice(-4)}</span>
             ) : (
