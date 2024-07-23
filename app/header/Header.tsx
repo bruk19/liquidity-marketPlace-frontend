@@ -5,6 +5,16 @@ import { useWalletProviderContext } from './wallet'
 
 function Header() {
   const { wallet, connectWallet } = useWalletProviderContext()
+
+  const handleConnectWallet = async () => {
+    try {
+      await connectWallet()
+    } catch (error) {
+      console.error('Error connecting to wallet:', error)
+    }
+  }
+  console.log("Header:", { wallet, connectWallet });
+
   return (
     <div className='bg-black'>
       <div className='flex justify-between px-8 py-4 text-white font-serif'>
@@ -17,9 +27,9 @@ function Header() {
             <li>Coin Market</li>
             <li>Buy Woox Token</li>
           </ul>
-          <button onClick={connectWallet}>
+          <button className='text-orange px-2 py-1 rounded-2' onClick={handleConnectWallet}>
             {wallet ? (
-              <span>Connected: {wallet.slice(0, 6)}...{wallet.slice(-4)}</span>
+              <span>{wallet.slice(0, 6)}...{wallet.slice(-4)}</span>
             ) : (
               <span>Connect Wallet</span>
             )}
