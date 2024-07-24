@@ -32,7 +32,36 @@ const LiquidityMarket: React.FC = () => {
     setUpWeb3();
   }, []);
 
-  
+  const checkPool = async () => {
+    try {
+      const provider = getProvider();
+      if (!provider) {
+        setMessage('Web3 not initialized');
+        return;
+      }
+
+      const factory = new ethers.Contract(FACTORY_ADDRESS, IUniswapV3FactoryABI, provider);
+      const poolAddress = await factory.getPool(tokenA, tokenB, fee);
+
+      if (poolAddress === ethers.ZeroAddress) {
+        setMessage('Pool does not exist');
+        setPoolAddress('');
+      } else {
+        setMessage('Pool exists');
+        setPoolAddress(poolAddress);
+        setPools(prev => {
+          if (!prev.some(p => p.address === poolAddress)) {
+            return [...prev, { address: poolAddress, token0: tokenA, token1: tokenB, fee }];
+          }
+          return prev;
+        });
+      }
+    } catch (error) {
+      console.error('Error checking pool:', error);
+      setMessage('Error checking pool');
+    }
+  };
+
   
 
   return (
