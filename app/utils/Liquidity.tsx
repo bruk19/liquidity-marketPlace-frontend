@@ -1,9 +1,15 @@
-import React from 'react'
+"use client"
+import React from 'react';
 
-function Liquidity() {
+
+const LiquidityMarket: React.FC = () => {
+
+
   return (
-    <div>Liquidity</div>
-  )
-}
+    <div>
+      <h1>Uniswap V3 Liquidity Manager</h1>
+    </div>
+  );
+};
 
-export default Liquidity
+export default LiquidityMarket;

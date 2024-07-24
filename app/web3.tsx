@@ -1,5 +1,3 @@
-import { AbstractProvider } from "ethers";
-import { BrowserProvider } from "ethers";
 import { ethers } from "ethers";
 
 declare global {
@@ -8,28 +6,30 @@ declare global {
   }
 }
 
-let provider: AbstractProvider;
-let web3: BrowserProvider;
+let provider: ethers.BrowserProvider | null = null;
+let signer: ethers.Signer | null = null;
 
 export async function setUpWeb3() {
-    let signer = null;
-
     if (window.ethereum == null) {
         console.log("MetaMask is not installed");
         return; // Exit if MetaMask is not installed
     } else {
-        web3 = new ethers.BrowserProvider(window.ethereum);
+        provider = new ethers.BrowserProvider(window.ethereum);
         await window.ethereum.request({ method: "eth_requestAccounts" }); // Request accounts first
-        signer = await web3.getSigner();
+        signer = await provider.getSigner();
         
-        const networkId = (await web3.getNetwork()).chainId;
-        if (Number(networkId) !== 11155111) {
+        const network = await provider.getNetwork();
+        if (network.chainId !== BigInt(11155111)) { // Sepolia testnet chainId
             window.alert("Please switch to the Sepolia testnet network");
             return; // Exit if the network is not correct
         }
     }
 }
 
-export function getWeb3() {
-  return web3;
+export function getProvider() {
+  return provider;
+}
+
+export function getSigner() {
+  return signer;
 }
