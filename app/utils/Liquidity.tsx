@@ -108,6 +108,62 @@ const LiquidityMarket: React.FC = () => {
   return (
     <div>
       <h1>Uniswap V3 Liquidity Manager</h1>
+
+      <section>
+        <h2>Check Pool</h2>
+        <input 
+          type="text" 
+          placeholder="Token A Address" 
+          value={tokenA} 
+          onChange={(e) => setTokenA(e.target.value)} 
+        />
+        <input 
+          type="text" 
+          placeholder="Token B Address" 
+          value={tokenB} 
+          onChange={(e) => setTokenB(e.target.value)} 
+        />
+        <select 
+          value={fee} 
+          onChange={(e) => setFee(Number(e.target.value) as FeeAmount)}
+        >
+          <option value={FeeAmount.LOW}>0.05%</option>
+          <option value={FeeAmount.MEDIUM}>0.3%</option>
+          <option value={FeeAmount.HIGH}>1%</option>
+        </select>
+        <button onClick={checkPool}>Check Pool</button>
+        {poolAddress && <p>Pool Address: {poolAddress}</p>}
+        <p>{message}</p>
+      </section>
+
+      <section>
+        <h2>Add Liquidity</h2>
+        <select 
+          value={selectedPool} 
+          onChange={(e) => setSelectedPool(e.target.value)}
+        >
+          <option value="">Select a pool</option>
+          {pools.map((pool, index) => (
+            <option key={index} value={pool.address}>
+              {`${pool.token0} - ${pool.token1} (${pool.fee / 10000}%)`}
+            </option>
+          ))}
+        </select>
+        <input 
+          type="text" 
+          placeholder="Liquidity Amount" 
+          value={liquidityAmount} 
+          onChange={(e) => setLiquidityAmount(e.target.value)} 
+        />
+        <input 
+          type="text" 
+          placeholder="Approve Amount" 
+          value={approveAmount} 
+          onChange={(e) => setApproveAmount(e.target.value)} 
+        />
+        <button onClick={addLiquidity}>Add Liquidity</button>
+        <p>{message}</p>
+      </section>
     </div>
   );
 };
