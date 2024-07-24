@@ -1,5 +1,14 @@
 "use client"
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import { FeeAmount, FACTORY_ADDRESS } from '@uniswap/v3-sdk';
+import { Contract } from '@ethersproject/contracts';
+import { abi as IUniswapV3PoolABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json';
+import { abi as IUniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Factory.sol/IUniswapV3Factory.json';
+import { getProvider, getSigner, setUpWeb3 } from '../web3';
+
+// Import your Liquidity contract ABI and address
+import { liquidityContractAddress, liquiditydAbi } from '../constants';
 
 
 const LiquidityMarket: React.FC = () => {
