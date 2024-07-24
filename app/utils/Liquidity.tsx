@@ -62,7 +62,48 @@ const LiquidityMarket: React.FC = () => {
     }
   };
 
-  
+  const addLiquidity = async () => {
+  try {
+    const signer = getSigner();
+    const provider = getProvider();
+    if (!signer || !provider) {
+      setMessage('Web3 not initialized');
+      return;
+    }
+
+    const liquidityContract = new ethers.Contract(liquidityContractAddress, liquiditydAbi, signer);
+
+    // First, approve the tokens
+    const pool = pools.find(p => p.address === selectedPool);
+    if (!pool) {
+      setMessage('Selected pool not found');
+      return;
+    }
+
+    const token0Contract = new ethers.Contract(pool.token0, ['function approve(address spender, uint256 amount) public returns (bool)', 'function symbol() public view returns (string)'], signer);
+    const token1Contract = new ethers.Contract(pool.token1, ['function approve(address spender, uint256 amount) public returns (bool)', 'function symbol() public view returns (string)'], signer);
+
+    await token0Contract.approve(liquidityContractAddress, approveAmount);
+    await token1Contract.approve(liquidityContractAddress, approveAmount);
+
+    // Now add liquidity
+    const tx = await liquidityContract.AddLiquidity(
+      await token0Contract.symbol(),
+      await token1Contract.symbol(),
+      pool.token0,
+      pool.token1,
+      selectedPool,
+      (await provider.getNetwork()).chainId.toString(),
+      ethers.ZeroHash // You might want to pass the actual transaction hash here
+    );
+
+    await tx.wait();
+    setMessage('Liquidity added successfully');
+  } catch (error) {
+    console.error('Error adding liquidity:', error);
+    setMessage('Error adding liquidity');
+  }
+};
 
   return (
     <div>
