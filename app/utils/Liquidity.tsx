@@ -107,8 +107,12 @@ const LiquidityMarket: React.FC = () => {
 
   return (
     <div>
-      <h1>Uniswap V3 Liquidity Manager</h1>
-
+      <div className='h-[80vh] bg-cryptoM flex flex-col justify-center items-center'>
+        <h3 className='text-2xl'>Coin Market</h3>
+        <h1 className='text-5xl my-10'>Create Liquidty Market Place</h1>
+      <p className='w-2/3 text-center'>Looking to capitalize on market opportunities and increase the liquidity 
+        of your assets? Our platform provides the perfect environment for investment and market access.</p>
+      </div>
       <section>
         <h2>Check Pool</h2>
         <input 
