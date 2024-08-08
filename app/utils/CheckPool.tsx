@@ -32,6 +32,9 @@ const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
       }
     } catch (error) {
       console.error('Error checking pool:', error);
+      console.error('Token A:', tokenA);
+      console.error('Token B:', tokenB);
+      console.error('Fee:', fee);
       setMessage('Error checking pool');
     }
   };
