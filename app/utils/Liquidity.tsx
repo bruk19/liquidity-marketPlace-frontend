@@ -108,18 +108,21 @@ const LiquidityMarket: React.FC = () => {
 
   return (
   <div>
-    <div className="relative h-[80vh]">
+    <div className="relative h-[89vh]">
       <div
-        className="absolute inset-0 bg-[url('/cryptoM.jpg')] bg-cover bg-center opacity-50"
+        className="absolute inset-0 bg-[url('/cryp.jpg')] bg-cover bg-center opacity-95"
       ></div>
       <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 sm:px-6 lg:px-8">
-        <h3 className="text-2xl text-white">Coin Market</h3>
-        <h1 className="text-5xl text-white my-10">Create Liquidty Market Place</h1>
+        <h3 className="text-2xl font-normal font-serif mt-6 text-white">Coin Market</h3>
+        <h1 className="text-6xl font-medium text-orange-400 font-serif text-white my-10">Create Liquidty Market Place</h1>
         <p className="text-white w-full max-w-3xl text-center">
           Looking to capitalize on market opportunities and increase the liquidity
           of your assets? Our platform provides the perfect environment for
           investment and market access.
         </p>
+        <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg mt-12'>
+          Get Birr Token Now
+        </button>
       </div>
     </div>
     <div>
