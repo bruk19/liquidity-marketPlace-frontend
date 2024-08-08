@@ -6,6 +6,7 @@ import { Contract } from '@ethersproject/contracts';
 import { abi as IUniswapV3PoolABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json';
 import { abi as IUniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Factory.sol/IUniswapV3Factory.json';
 import { getProvider, getSigner, setUpWeb3 } from '../web3';
+import Image from 'next/image';
 
 // Import your Liquidity contract ABI and address
 import { liquidityContractAddress, liquiditydAbi } from '../constants';
@@ -106,29 +107,38 @@ const LiquidityMarket: React.FC = () => {
 };
 
   return (
-    <div>
-      <div className='h-[80vh] bg-cryptoM flex flex-col justify-center items-center'>
-        <h3 className='text-2xl'>Coin Market</h3>
-        <h1 className='text-5xl my-10'>Create Liquidty Market Place</h1>
-      <p className='w-2/3 text-center'>Looking to capitalize on market opportunities and increase the liquidity 
-        of your assets? Our platform provides the perfect environment for investment and market access.</p>
+  <div>
+    <div className="relative h-[80vh]">
+      <div
+        className="absolute inset-0 bg-[url('/cryptoM.jpg')] bg-cover bg-center opacity-50"
+      ></div>
+      <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 sm:px-6 lg:px-8">
+        <h3 className="text-2xl text-white">Coin Market</h3>
+        <h1 className="text-5xl text-white my-10">Create Liquidty Market Place</h1>
+        <p className="text-white w-full max-w-3xl text-center">
+          Looking to capitalize on market opportunities and increase the liquidity
+          of your assets? Our platform provides the perfect environment for
+          investment and market access.
+        </p>
       </div>
+    </div>
+    <div>
       <section>
         <h2>Check Pool</h2>
-        <input 
-          type="text" 
-          placeholder="Token A Address" 
-          value={tokenA} 
-          onChange={(e) => setTokenA(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Token A Address"
+          value={tokenA}
+          onChange={(e) => setTokenA(e.target.value)}
         />
-        <input 
-          type="text" 
-          placeholder="Token B Address" 
-          value={tokenB} 
-          onChange={(e) => setTokenB(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Token B Address"
+          value={tokenB}
+          onChange={(e) => setTokenB(e.target.value)}
         />
-        <select 
-          value={fee} 
+        <select
+          value={fee}
           onChange={(e) => setFee(Number(e.target.value) as FeeAmount)}
         >
           <option value={FeeAmount.LOW}>0.05%</option>
@@ -139,11 +149,13 @@ const LiquidityMarket: React.FC = () => {
         {poolAddress && <p>Pool Address: {poolAddress}</p>}
         <p>{message}</p>
       </section>
+    </div>
 
+    <div>
       <section>
         <h2>Add Liquidity</h2>
-        <select 
-          value={selectedPool} 
+        <select
+          value={selectedPool}
           onChange={(e) => setSelectedPool(e.target.value)}
         >
           <option value="">Select a pool</option>
@@ -153,23 +165,24 @@ const LiquidityMarket: React.FC = () => {
             </option>
           ))}
         </select>
-        <input 
-          type="text" 
-          placeholder="Liquidity Amount" 
-          value={liquidityAmount} 
-          onChange={(e) => setLiquidityAmount(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Liquidity Amount"
+          value={liquidityAmount}
+          onChange={(e) => setLiquidityAmount(e.target.value)}
         />
-        <input 
-          type="text" 
-          placeholder="Approve Amount" 
-          value={approveAmount} 
-          onChange={(e) => setApproveAmount(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Approve Amount"
+          value={approveAmount}
+          onChange={(e) => setApproveAmount(e.target.value)}
         />
         <button onClick={addLiquidity}>Add Liquidity</button>
         <p>{message}</p>
       </section>
     </div>
-  );
+  </div>
+);
 };
 
 export default LiquidityMarket;
