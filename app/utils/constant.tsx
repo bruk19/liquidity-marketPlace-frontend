@@ -15,14 +15,14 @@ if (!window.ethereum) {
 }
 
 // Create a provider
-const provider = new ethers.BrowserProvider(window.ethereum);
+export const provider = new ethers.BrowserProvider(window.ethereum);
 
 // Define contract instances
 let liquidityMarketContract: ethers.Contract;
 let liquidityContract: ethers.Contract;
 let icoMarketContract: ethers.Contract;
 
-export const initSigner = async () => {
+export const initContracts = async () => {
   const signer = await provider.getSigner();
 
   liquidityMarketContract = new ethers.Contract(
@@ -44,6 +44,6 @@ export const initSigner = async () => {
   );
 };
 
-initSigner();
+initContracts();
 
 export { liquidityMarketContract, liquidityContract, icoMarketContract };

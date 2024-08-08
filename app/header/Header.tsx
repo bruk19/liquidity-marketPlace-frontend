@@ -1,19 +1,37 @@
+// Header.tsx
 "use client";
+import React, { useState } from 'react';
+import { useWalletProviderContext } from './wallet';
+import Modal from '../utils/Modal';
+import CheckPool from '../utils/CheckPool';
+import AddLiquidity from '../utils/AddLiquidity';
 
-import React from 'react'
-import { useWalletProviderContext } from './wallet'
+interface PoolInfo {
+  address: string;
+  token0: string;
+  token1: string;
+  fee: number;
+}
 
-function Header() {
-  const { wallet, connectWallet } = useWalletProviderContext()
+const Header: React.FC = () => {
+  const { wallet, connectWallet } = useWalletProviderContext();
+  const [isPoolModalOpen, setIsPoolModalOpen] = useState(false);
+  const [isLiquidityModalOpen, setIsLiquidityModalOpen] = useState(false);
+
+  // Example pools data (replace with actual data as needed)
+  const pools: PoolInfo[] = [
+    { address: '0xPoolAddress1', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
+    { address: '0xPoolAddress2', token0: 'TokenC', token1: 'TokenD', fee: 500 },
+    // Add more pools as needed
+  ];
 
   const handleConnectWallet = async () => {
     try {
-      await connectWallet()
+      await connectWallet();
     } catch (error) {
-      console.error('Error connecting to wallet:', error)
+      console.error('Error connecting to wallet:', error);
     }
-  }
-  console.log("Header:", { wallet, connectWallet });
+  };
 
   return (
     <div className='bg-black'>
@@ -22,8 +40,8 @@ function Header() {
         <div className='flex mr-4 items-center'>
           <ul className='flex gap-8 mr-8'>
             <li>Home</li>
-            <li>Add Pool</li>
-            <li>Add Liquidity</li>
+            <li onClick={() => setIsPoolModalOpen(true)} className="cursor-pointer">Add Pool</li>
+            <li onClick={() => setIsLiquidityModalOpen(true)} className="cursor-pointer">Add Liquidity</li>
             <li>Coin Market</li>
             <li>Buy Woox Token</li>
           </ul>
@@ -36,8 +54,18 @@ function Header() {
           </button>
         </div>
       </div>
+
+      {/* Modal for Check Pool */}
+      <Modal isOpen={isPoolModalOpen} onClose={() => setIsPoolModalOpen(false)} title="Check Pool">
+        <CheckPool onClose={() => setIsPoolModalOpen(false)} /> {/* Pass onClose to CheckPool */}
+      </Modal>
+
+      {/* Modal for Add Liquidity */}
+      <Modal isOpen={isLiquidityModalOpen} onClose={() => setIsLiquidityModalOpen(false)} title="Add Liquidity">
+        <AddLiquidity pools={pools} onClose={() => setIsLiquidityModalOpen(false)} /> {/* Pass the pools prop and onClose to AddLiquidity */}
+      </Modal>
     </div>
-  )
+  );
 }
 
-export default Header
+export default Header;
