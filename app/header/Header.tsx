@@ -36,7 +36,7 @@ const Header: React.FC = () => {
   return (
     <div className='bg-black'>
       <div className='flex justify-between items-center px-8 py-4 text-white font-serif'>
-        <div className='ml-6 font-serif text-lg'>Wooox</div>
+        <div className='ml-6 font-serif text-lg'>BIRR</div>
         <div className='flex mr-4 items-center'>
           <ul className='flex gap-8 mr-8'>
             <li><a href="/">Home </a></li>
