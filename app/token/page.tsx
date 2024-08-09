@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { initContracts, provider, icoMarketContract } from '../utils/constant';
+import Image from 'next/image';
 
 const IcoMarket: React.FC = () => {
   const [tokenPrice, setTokenPrice] = useState<number>(0);
@@ -65,8 +66,18 @@ const IcoMarket: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>ICO Market</h2>
+    <div className='h-[90vh] bg-black'>
+      <div className='mt-15 flex '>
+        <div className='w-[60%] my-5 mx-5'>
+        <h1 className='text-white text-7xl'>Hurry to Invest in
+           CruptoCurrency</h1>
+        <p className='text-white mt-10'>The time to capitalize on the cryptocurrency revolution is now. This decentralized digital currency 
+          is experiencing unprecedented mainstream adoption, offering early investors life-changing wealth potential. Don't miss your chance to secure a piece of this lucrative future - cryptocurrency's 
+          explosive growth shows no signs of slowing, but the window of opportunity won't stay open forever.</p>
+      </div>
+      <div className='text-white mt-20'>
+        <h2 className='text-white text-3xl'>Bir token for sale</h2>
+        <Image className='my-10' src="/coin.jpg" alt="Site Logo" width={320} height={150} />
       <p>Token Price: {tokenPrice} ETH</p>
       <p>Tokens Sold: {tokensSold}</p>
       <p>Balance Left: {balanceLeft}</p>
@@ -80,6 +91,8 @@ const IcoMarket: React.FC = () => {
       <button onClick={buyTokens}>Buy Tokens</button>
       <button onClick={endSale}>End Sale</button>
       <p>{message}</p>
+      </div>
+      </div>
     </div>
   );
 };

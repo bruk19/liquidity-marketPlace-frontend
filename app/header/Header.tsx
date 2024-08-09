@@ -39,10 +39,10 @@ const Header: React.FC = () => {
         <div className='ml-6 font-serif text-lg'>Wooox</div>
         <div className='flex mr-4 items-center'>
           <ul className='flex gap-8 mr-8'>
-            <li>Home</li>
+            <li><a href="/">Home </a></li>
             <li onClick={() => setIsPoolModalOpen(true)} className="cursor-pointer">Add Pool</li>
             <li onClick={() => setIsLiquidityModalOpen(true)} className="cursor-pointer">Add Liquidity</li>
-            <li>Coin Market</li>
+            <li><a href="/token"> Coin Market </a></li>
             <li>Buy Woox Token</li>
           </ul>
           <button className='text-orange-400 border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={handleConnectWallet}>
