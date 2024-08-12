@@ -66,7 +66,7 @@ const IcoMarket: React.FC = () => {
   };
 
   return (
-    <div className='h-[90vh] bg-black'>
+    <div className='h-[98vh] bg-black'>
       <div className='mt-15 flex '>
         <div className='w-[60%] my-5 mx-5'>
         <h1 className='text-white text-7xl mt-8'>Hurry to Invest in

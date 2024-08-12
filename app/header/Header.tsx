@@ -20,9 +20,8 @@ const Header: React.FC = () => {
 
   // Example pools data (replace with actual data as needed)
   const pools: PoolInfo[] = [
-    { address: '0xPoolAddress1', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
-    { address: '0xPoolAddress2', token0: 'TokenC', token1: 'TokenD', fee: 500 },
-    // Add more pools as needed
+    { address: '0x144Ed668C6ca0Fe540c7DBe0C00da6Df66409847', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
+    { address: '0xAAc35562d4b300B092Af9386C954D7e30A38d3EF', token0: 'TokenC', token1: 'TokenD', fee: 500 },
   ];
 
   const handleConnectWallet = async () => {
@@ -35,15 +34,12 @@ const Header: React.FC = () => {
 
   return (
     <div className='bg-black'>
-      <div className='flex justify-between items-center px-8 py-4 text-white font-serif'>
+      <div className='flex justify-between items-center px-12 py-4 text-white font-serif'>
         <div className='ml-6 font-serif text-lg'>BIRR</div>
-        <div className='flex mr-4 items-center'>
-          <ul className='flex gap-8 mr-8'>
+        <div className='flex mr-9 items-center'>
+          <ul className='flex gap-12 mr-8'>
             <li><a href="/">Home </a></li>
-            <li onClick={() => setIsPoolModalOpen(true)} className="cursor-pointer">Add Pool</li>
-            <li onClick={() => setIsLiquidityModalOpen(true)} className="cursor-pointer">Add Liquidity</li>
             <li><a href="/token"> Coin Market </a></li>
-            <li>Buy Woox Token</li>
           </ul>
           <button className='text-orange-400 border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={handleConnectWallet}>
             {wallet ? (
@@ -57,12 +53,12 @@ const Header: React.FC = () => {
 
       {/* Modal for Check Pool */}
       <Modal isOpen={isPoolModalOpen} onClose={() => setIsPoolModalOpen(false)} title="Check Pool">
-        <CheckPool onClose={() => setIsPoolModalOpen(false)} /> {/* Pass onClose to CheckPool */}
+        <CheckPool onClose={() => setIsPoolModalOpen(false)} />
       </Modal>
 
       {/* Modal for Add Liquidity */}
       <Modal isOpen={isLiquidityModalOpen} onClose={() => setIsLiquidityModalOpen(false)} title="Add Liquidity">
-        <AddLiquidity pools={pools} onClose={() => setIsLiquidityModalOpen(false)} /> {/* Pass the pools prop and onClose to AddLiquidity */}
+        <AddLiquidity pools={pools} onClose={() => setIsLiquidityModalOpen(false)} />
       </Modal>
     </div>
   );

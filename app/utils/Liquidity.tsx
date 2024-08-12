@@ -20,7 +20,6 @@ const LiquidityMarket: React.FC = () => {
   const pools: PoolInfo[] = [
     { address: '0xPoolAddress1', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
     { address: '0xPoolAddress2', token0: 'TokenC', token1: 'TokenD', fee: 500 },
-    // Add more pools as needed
   ];
 
   return (
@@ -37,12 +36,14 @@ const LiquidityMarket: React.FC = () => {
             of your assets? Our platform provides the perfect environment for
             investment and market access.
           </p>
-          <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg mt-12' onClick={() => setIsPoolModalOpen(true)}>
+          <div className= 'flex mt-8 gap-5'>
+            <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={() => setIsPoolModalOpen(true)}>
             Add Pool
           </button>
-          <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg mt-2' onClick={() => setIsLiquidityModalOpen(true)}>
+          <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={() => setIsLiquidityModalOpen(true)}>
             Add Liquidity
           </button>
+          </div>
         </div>
       </div>
 
