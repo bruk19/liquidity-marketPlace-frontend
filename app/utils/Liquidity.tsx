@@ -1,9 +1,10 @@
-// LiquidityMarket.tsx
+// src/components/LiquidityMarket.tsx
 "use client";
-import React, { useState } from 'react';
-import Modal from './Modal';
-import CheckPool from './CheckPool'; 
-import AddLiquidity from './AddLiquidity'; 
+import React, { useState, useEffect } from 'react';
+import Modal from './Modal'; // Import the Modal component
+import CheckPool from './CheckPool'; // Import the Check Pool component
+import AddLiquidity from './AddLiquidity'; // Import the Add Liquidity component
+import { fetchPools } from '../utils/uniswapClient'; // Import the fetchPools function
 
 interface PoolInfo {
   address: string;
@@ -15,11 +16,19 @@ interface PoolInfo {
 const LiquidityMarket: React.FC = () => {
   const [isPoolModalOpen, setIsPoolModalOpen] = useState(false);
   const [isLiquidityModalOpen, setIsLiquidityModalOpen] = useState(false);
+  const [pools, setPools] = useState<PoolInfo[]>([]); // State to hold fetched pools
 
-  const pools: PoolInfo[] = [
-    { address: '0xPoolAddress1', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
-    { address: '0xPoolAddress2', token0: 'TokenC', token1: 'TokenD', fee: 500 },
-  ];
+  useEffect(() => {
+    const fetchAndSetPools = async () => {
+      try {
+        const fetchedPools = await fetchPools(1000, 0); // Fetch the first 1000 pools
+        setPools(fetchedPools); // Update state with fetched pools
+      } catch (error) {
+        console.error('Error fetching pools:', error);
+      }
+    };
+    fetchAndSetPools(); // Call the fetch function
+  }, []);
 
   return (
     <div>
@@ -35,13 +44,13 @@ const LiquidityMarket: React.FC = () => {
             of your assets? Our platform provides the perfect environment for
             investment and market access.
           </p>
-          <div className= 'flex mt-8 gap-5'>
+          <div className='flex mt-8 gap-5'>
             <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={() => setIsPoolModalOpen(true)}>
-            Add Pool
-          </button>
-          <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={() => setIsLiquidityModalOpen(true)}>
-            Add Liquidity
-          </button>
+              Add Pool
+            </button>
+            <button className='text-orange-400 text-[20px] border-[2px] border-orange-400 px-4 py-2 rounded-lg' onClick={() => setIsLiquidityModalOpen(true)}>
+              Add Liquidity
+            </button>
           </div>
         </div>
       </div>
