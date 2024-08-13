@@ -1,9 +1,9 @@
 // LiquidityMarket.tsx
 "use client";
 import React, { useState } from 'react';
-import Modal from './Modal'; // Import the Modal component
-import CheckPool from './CheckPool'; // Import the Check Pool component
-import AddLiquidity from './AddLiquidity'; // Import the Add Liquidity component
+import Modal from './Modal';
+import CheckPool from './CheckPool'; 
+import AddLiquidity from './AddLiquidity'; 
 
 interface PoolInfo {
   address: string;
@@ -16,7 +16,6 @@ const LiquidityMarket: React.FC = () => {
   const [isPoolModalOpen, setIsPoolModalOpen] = useState(false);
   const [isLiquidityModalOpen, setIsLiquidityModalOpen] = useState(false);
 
-  // Example pools data (replace with actual data as needed)
   const pools: PoolInfo[] = [
     { address: '0xPoolAddress1', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
     { address: '0xPoolAddress2', token0: 'TokenC', token1: 'TokenD', fee: 500 },
