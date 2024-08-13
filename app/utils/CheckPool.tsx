@@ -1,4 +1,3 @@
-// CheckPool.tsx
 "use client";
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
@@ -32,10 +31,21 @@ const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
       }
     } catch (error) {
       console.error('Error checking pool:', error);
-      console.error('Token A:', tokenA);
-      console.error('Token B:', tokenB);
-      console.error('Fee:', fee);
-      setMessage('Error checking pool');
+
+      if (!tokenA) {
+        setMessage('Please enter a valid Token A address.');
+      } else if (!tokenB) {
+        setMessage('Please enter a valid Token B address.');
+      } else if (fee === undefined || fee === null) {
+        setMessage('Please select a valid fee amount.');
+      } else {
+        setMessage('Error checking pool. Please try again later.');
+        console.error('Token A:', tokenA);
+        console.error('Token B:', tokenB);
+        console.error('Fee:', fee);
+        console.error('Error:', error);
+      }
+      setPoolAddress('');
     }
   };
 

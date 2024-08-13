@@ -1,4 +1,3 @@
-// Header.tsx
 "use client";
 import React, { useState } from 'react';
 import { useWalletProviderContext } from './wallet';
@@ -18,11 +17,7 @@ const Header: React.FC = () => {
   const [isPoolModalOpen, setIsPoolModalOpen] = useState(false);
   const [isLiquidityModalOpen, setIsLiquidityModalOpen] = useState(false);
 
-  // Example pools data (replace with actual data as needed)
-  const pools: PoolInfo[] = [
-    { address: '0x144Ed668C6ca0Fe540c7DBe0C00da6Df66409847', token0: 'TokenA', token1: 'TokenB', fee: 3000 },
-    { address: '0xAAc35562d4b300B092Af9386C954D7e30A38d3EF', token0: 'TokenC', token1: 'TokenD', fee: 500 },
-  ];
+  const pools: PoolInfo[] = [];
 
   const handleConnectWallet = async () => {
     try {

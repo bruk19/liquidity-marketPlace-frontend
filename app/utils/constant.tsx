@@ -1,4 +1,3 @@
-// src/utils/web3.ts
 import { ethers } from 'ethers';
 import {
   icoMarketAbi,
@@ -14,10 +13,8 @@ if (!window.ethereum) {
   throw new Error('MetaMask is not installed. Please install it to use this application.');
 }
 
-// Create a provider
 export const provider = new ethers.BrowserProvider(window.ethereum);
 
-// Define contract instances
 let liquidityMarketContract: ethers.Contract;
 let liquidityContract: ethers.Contract;
 let icoMarketContract: ethers.Contract;

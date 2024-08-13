@@ -17,18 +17,18 @@ interface PoolInfo {
 const LiquidityMarket: React.FC = () => {
   const [isPoolModalOpen, setIsPoolModalOpen] = useState(false);
   const [isLiquidityModalOpen, setIsLiquidityModalOpen] = useState(false);
-  const [pools, setPools] = useState<PoolInfo[]>([]); // State to hold fetched pools
+  const [pools, setPools] = useState<PoolInfo[]>([]); 
 
   useEffect(() => {
     const fetchAndSetPools = async () => {
       try {
-        const fetchedPools = await fetchPools(1000, 0); // Fetch the first 1000 pools
-        setPools(fetchedPools); // Update state with fetched pools
+        const fetchedPools = await fetchPools(1000, 0); 
+        setPools(fetchedPools); 
       } catch (error) {
         console.error('Error fetching pools:', error);
       }
     };
-    fetchAndSetPools(); // Call the fetch function
+    fetchAndSetPools(); 
   }, []);
 
   return (

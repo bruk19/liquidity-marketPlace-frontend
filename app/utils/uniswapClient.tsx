@@ -1,4 +1,3 @@
-// src/utils/uniswapClient.ts
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 const client = new ApolloClient({
@@ -6,7 +5,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// GraphQL query to fetch pools
 const GET_POOLS = gql`
   query getPools($first: Int!, $skip: Int!) {
     pools(first: $first, skip: $skip, orderBy: totalValueLockedETH, orderDirection: desc) {

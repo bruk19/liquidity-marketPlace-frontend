@@ -1,9 +1,7 @@
-// Pool.tsx
 "use client";
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { FeeAmount, FACTORY_ADDRESS } from '@uniswap/v3-sdk';
-import { Contract } from '@ethersproject/contracts';
 import { abi as IUniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Factory.sol/IUniswapV3Factory.json';
 import { getProvider, getSigner } from '../web3';
 import { liquidityContractAddress, liquiditydAbi } from '../constants';
