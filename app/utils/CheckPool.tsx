@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { FeeAmount, FACTORY_ADDRESS } from '@uniswap/v3-sdk';
@@ -19,7 +19,11 @@ const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
   const checkPool = async () => {
     try {
       await initContracts();
-      const factory = new ethers.Contract(FACTORY_ADDRESS, IUniswapV3FactoryABI, provider);
+      const factory = new ethers.Contract(
+        FACTORY_ADDRESS,
+        IUniswapV3FactoryABI,
+        provider
+      );
       const poolAddress = await factory.getPool(tokenA, tokenB, fee);
 
       if (poolAddress === '0x0000000000000000000000000000000000000000') {
@@ -75,7 +79,10 @@ const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
         <option value={FeeAmount.MEDIUM}>0.3%</option>
         <option value={FeeAmount.HIGH}>1%</option>
       </select>
-      <button onClick={checkPool} className="bg-orange-400 text-white px-4 py-2 rounded mb-2 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400">
+      <button
+        onClick={checkPool}
+        className="bg-orange-400 text-white px-4 py-2 rounded mb-2 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400"
+      >
         Check Pool
       </button>
       {poolAddress && <p>Pool Address: {poolAddress}</p>}

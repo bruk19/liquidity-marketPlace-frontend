@@ -10,7 +10,9 @@ import {
 
 // Check if window.ethereum is available
 if (!window.ethereum) {
-  throw new Error('MetaMask is not installed. Please install it to use this application.');
+  throw new Error(
+    'MetaMask is not installed. Please install it to use this application.'
+  );
 }
 
 export const provider = new ethers.BrowserProvider(window.ethereum);

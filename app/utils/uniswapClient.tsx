@@ -7,7 +7,12 @@ const client = new ApolloClient({
 
 const GET_POOLS = gql`
   query getPools($first: Int!, $skip: Int!) {
-    pools(first: $first, skip: $skip, orderBy: totalValueLockedETH, orderDirection: desc) {
+    pools(
+      first: $first
+      skip: $skip
+      orderBy: totalValueLockedETH
+      orderDirection: desc
+    ) {
       id
       token0 {
         id
