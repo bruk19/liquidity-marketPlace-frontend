@@ -29,15 +29,20 @@ const GET_POOLS = gql`
 
 // Function to fetch pools
 export const fetchPools = async (first: number, skip: number) => {
-  const { data } = await client.query({
-    query: GET_POOLS,
-    variables: { first, skip },
-  });
+  try {
+    const { data } = await client.query({
+      query: GET_POOLS,
+      variables: { first, skip },
+    });
 
-  return data.pools.map(({ id, token0, token1, feeTier }: any) => ({
-    address: id,
-    token0: token0.symbol,
-    token1: token1.symbol,
-    fee: feeTier,
-  }));
+    return data.pools.map(({ id, token0, token1, feeTier }: any) => ({
+      address: id,
+      token0: token0.symbol,
+      token1: token1.symbol,
+      fee: feeTier,
+    }));
+  } catch (error) {
+    console.error('Error fetching pools:', error);
+    throw new Error('Failed to fetch pools');
+  }
 };
