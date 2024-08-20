@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
+  uri: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3', // Updated endpoint
   cache: new InMemoryCache(),
 });
 

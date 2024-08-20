@@ -19,15 +19,24 @@ const LiquidityMarket: React.FC = () => {
   const [pools, setPools] = useState<PoolInfo[]>([]);
 
   useEffect(() => {
-    const fetchAndSetPools = async () => {
-      try {
-        const fetchedPools = await fetchPools(1000, 0);
-        setPools(fetchedPools);
-      } catch (error) {
-        console.error('Error fetching pools:', error);
-      }
+  const fetchAndSetPools = async () => {
+    try {
+      const fetchedPools = await fetchPools(1000, 0);
+      setPools(fetchedPools);
+    } catch (error) {
+      console.error('Error fetching pools:', error);
+      setPools([]); // Set pools to an empty array if there's an error
+    }
+  };
+  fetchAndSetPools();
+}, []);
+
+useEffect(() => {
+    const loadPools = async () => {
+      const fetchedPools = await fetchPools(1000, 0);
+      setPools(fetchedPools);
     };
-    fetchAndSetPools();
+    loadPools();
   }, []);
 
   return (

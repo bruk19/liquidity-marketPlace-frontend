@@ -15,8 +15,8 @@ const ERC20_ABI = [
 ];
 
 const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
-  const [tokenA, setTokenA] = useState<string>('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'); // USDC
-  const [tokenB, setTokenB] = useState<string>('0x6b175474e89094c44da98b954eedeac495271d0f'); // DAI
+  const [tokenA, setTokenA] = useState<string>('');
+  const [tokenB, setTokenB] = useState<string>('');
   const [tokenAName, setTokenAName] = useState<string>('');
   const [tokenBName, setTokenBName] = useState<string>('');
   const [fee, setFee] = useState<FeeAmount>(FeeAmount.MEDIUM);
@@ -24,37 +24,62 @@ const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    if (tokenA) {
+    if (ethers.isAddress(tokenA)) {
       getTokenName(tokenA, setTokenAName);
+    } else {
+      setTokenAName('');
     }
   }, [tokenA]);
 
   useEffect(() => {
-    if (tokenB) {
+    if (ethers.isAddress(tokenB)) {
       getTokenName(tokenB, setTokenBName);
+    } else {
+      setTokenBName('');
     }
   }, [tokenB]);
 
-  const getTokenName = async (tokenAddress: string, setTokenName: React.Dispatch<React.SetStateAction<string>>) => {
+  const checkNetwork = async () => {
+  try {
+    const network = await provider.getNetwork();
+    console.log('Current network:', network.name, 'Chain ID:', network.chainId);
+  } catch (error) {
+    console.error('Error checking network:', error);
+  }
+};
+
+useEffect(() => {
+  checkNetwork();
+}, []);
+
+ const getTokenName = async (tokenAddress: string, setTokenName: React.Dispatch<React.SetStateAction<string>>) => {
+  try {
+    const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
+    
     try {
-      const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
-      const name = await tokenContract.name(); 
+      const name = await tokenContract.name();
       setTokenName(name);
-    } catch (error) {
-      console.error('Error getting token name:', error);
-      if (error instanceof Error) {
-        if (error.message.includes("could not decode result data")) {
-          setTokenName('Error: Invalid token address or not an ERC20 token');
-        } else if (error.message.includes("method not found")) {
-          setTokenName('Error: Token contract does not implement name() function');
-        } else {
-          setTokenName('Error: ' + error.message);
-        }
-      } else {
-        setTokenName('Error: ' + String(error));
+    } catch (nameError) {
+      console.error('Error getting token name:', nameError);
+      
+      // If name() fails, try symbol() as a fallback
+      try {
+        const symbol = await tokenContract.symbol();
+        setTokenName(`Symbol: ${symbol}`);
+      } catch (symbolError) {
+        console.error('Error getting token symbol:', symbolError);
+        setTokenName('Error: Could not retrieve token info');
       }
     }
-  };
+  } catch (error) {
+    console.error('Error creating token contract:', error);
+    if (error instanceof Error) {
+      setTokenName(`Error: ${error.message}`);
+    } else {
+      setTokenName('Error: Unknown error occurred');
+    }
+  }
+};
 
   const checkPool = async () => {
     try {
