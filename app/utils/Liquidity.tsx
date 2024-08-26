@@ -31,14 +31,6 @@ const LiquidityMarket: React.FC = () => {
   fetchAndSetPools();
 }, []);
 
-useEffect(() => {
-    const loadPools = async () => {
-      const fetchedPools = await fetchPools(1000, 0);
-      setPools(fetchedPools);
-    };
-    loadPools();
-  }, []);
-
   return (
     <div>
       <div className="relative h-[100vh]">

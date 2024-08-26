@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.4",
     "@ethersproject/contracts": "^5.7.0",
+    "@graphprotocol/graph-cli": "^0.80.1",
     "@uniswap/v3-sdk": "^3.13.1",
     "axios": "^1.7.4",
     "ethers": "^6.13.1",
