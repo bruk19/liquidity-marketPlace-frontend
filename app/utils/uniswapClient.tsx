@@ -1,13 +1,14 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { GraphQLError } from 'graphql';
 import { ApolloError } from '@apollo/client';
 import { GraphQLFormattedError } from 'graphql';
 
+// Create an Apollo Client instance pointing to your Express server
 const client = new ApolloClient({
-  uri: 'https://gateway.thegraph.com/api/a9e63b93052e74697a6898ade9fe439f/subgraphs/id/marketplace',
+  uri: 'http://localhost:5000/api/graphql', // Point to your Express server
   cache: new InMemoryCache(),
 });
 
+// GraphQL query to get token information
 const GET_TOKEN_INFO = gql`
   query getTokenInfo($tokenAddress: ID!) {
     token(id: $tokenAddress) {
@@ -18,6 +19,7 @@ const GET_TOKEN_INFO = gql`
   }
 `;
 
+// GraphQL query to get pool information
 const GET_POOL_INFO = gql`
   query getPoolInfo($token0: String!, $token1: String!, $fee: Int!) {
     pools(where: { token0: $token0, token1: $token1, feeTier: $fee }) {
@@ -33,6 +35,7 @@ const GET_POOL_INFO = gql`
   }
 `;
 
+// Fetch token information
 export const fetchTokenInfo = async (tokenAddress: string) => {
   try {
     const { data } = await client.query({
@@ -66,11 +69,12 @@ interface FetchPoolsResponse {
   fee: number;
 }
 
-export const fetchPools = async (first: number, skip: number): Promise<FetchPoolsResponse[]> => {
+// Fetch pool information
+export const fetchPools = async (token0: string, token1: string, fee: number): Promise<FetchPoolsResponse[]> => {
   try {
     const { data } = await client.query({
       query: GET_POOL_INFO,
-      variables: { first, skip },
+      variables: { token0: token0.toLowerCase(), token1: token1.toLowerCase(), fee },
     });
 
     if (!data || !data.pools) {
@@ -111,3 +115,16 @@ function isApolloError(error: unknown): error is ApolloError {
     'networkError' in error
   );
 }
+
+// Example usage
+const token0 = '0xToken0AddressHere'; // Replace with a valid token0 address
+const token1 = '0xToken1AddressHere'; // Replace with a valid token1 address
+const fee = 3000; // Replace with the desired fee tier (e.g., 0.3% = 3000)
+
+fetchPools(token0, token1, fee).then(poolInfo => {
+  if (poolInfo.length > 0) {
+    console.log('Pool Info:', poolInfo);
+  } else {
+    console.log('No pool found or an error occurred.');
+  }
+});

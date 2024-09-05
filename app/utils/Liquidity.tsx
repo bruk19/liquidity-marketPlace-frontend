@@ -19,17 +19,21 @@ const LiquidityMarket: React.FC = () => {
   const [pools, setPools] = useState<PoolInfo[]>([]);
 
   useEffect(() => {
-  const fetchAndSetPools = async () => {
-    try {
-      const fetchedPools = await fetchPools(1000, 0);
-      setPools(fetchedPools);
-    } catch (error) {
-      console.error('Error fetching pools:', error);
-      setPools([]); // Set pools to an empty array if there's an error
-    }
-  };
-  fetchAndSetPools();
-}, []);
+    const fetchAndSetPools = async () => {
+      try {
+        const token0 = '0xToken0AddressHere'; // Replace with a valid token0 address
+        const token1 = '0xToken1AddressHere'; // Replace with a valid token1 address
+        const fee = 3000; // Example fee tier (0.3%)
+
+        const fetchedPools = await fetchPools(token0, token1, fee);
+        setPools(fetchedPools);
+      } catch (error) {
+        console.error('Error fetching pools:', error);
+        setPools([]); // Set pools to an empty array if there's an error
+      }
+    };
+    fetchAndSetPools();
+  }, []);
 
   return (
     <div>
@@ -78,8 +82,7 @@ const LiquidityMarket: React.FC = () => {
         onClose={() => setIsPoolModalOpen(false)}
         title="Check Pool"
       >
-        <CheckPool onClose={() => setIsPoolModalOpen(false)} />{' '}
-        {/* Pass onClose to CheckPool */}
+        <CheckPool onClose={() => setIsPoolModalOpen(false)} />
       </Modal>
 
       {/* Modal for Add Liquidity */}
@@ -91,8 +94,7 @@ const LiquidityMarket: React.FC = () => {
         <AddLiquidity
           pools={pools}
           onClose={() => setIsLiquidityModalOpen(false)}
-        />{' '}
-        {/* Pass the pools prop and onClose to AddLiquidity */}
+        />
       </Modal>
     </div>
   );

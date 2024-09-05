@@ -40,50 +40,64 @@ const CheckPool: React.FC<CheckPoolProps> = ({ onClose }) => {
   }, [tokenB]);
 
   const checkNetwork = async () => {
-  try {
-    const network = await provider.getNetwork();
-    console.log('Current network:', network.name, 'Chain ID:', network.chainId);
-  } catch (error) {
-    console.error('Error checking network:', error);
-  }
-};
-
-useEffect(() => {
-  checkNetwork();
-}, []);
-
- const getTokenName = async (tokenAddress: string, setTokenName: React.Dispatch<React.SetStateAction<string>>) => {
-  try {
-    const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
-    
     try {
-      const name = await tokenContract.name();
-      setTokenName(name);
-    } catch (nameError) {
-      console.error('Error getting token name:', nameError);
+      if (provider) { // Check if provider is not null
+        const network = await provider.getNetwork();
+        console.log('Current network:', network.name, 'Chain ID:', network.chainId);
+      } else {
+        console.error('Provider is not initialized.');
+      }
+    } catch (error) {
+      console.error('Error checking network:', error);
+    }
+  };
+
+  useEffect(() => {
+    checkNetwork();
+  }, []);
+
+  const getTokenName = async (tokenAddress: string, setTokenName: React.Dispatch<React.SetStateAction<string>>) => {
+    try {
+      if (!provider) {
+        setTokenName('Error: Provider is not initialized.');
+        return;
+      }
       
-      // If name() fails, try symbol() as a fallback
+      const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
+      
       try {
-        const symbol = await tokenContract.symbol();
-        setTokenName(`Symbol: ${symbol}`);
-      } catch (symbolError) {
-        console.error('Error getting token symbol:', symbolError);
-        setTokenName('Error: Could not retrieve token info');
+        const name = await tokenContract.name();
+        setTokenName(name);
+      } catch (nameError) {
+        console.error('Error getting token name:', nameError);
+        
+        // If name() fails, try symbol() as a fallback
+        try {
+          const symbol = await tokenContract.symbol();
+          setTokenName(`Symbol: ${symbol}`);
+        } catch (symbolError) {
+          console.error('Error getting token symbol:', symbolError);
+          setTokenName('Error: Could not retrieve token info');
+        }
+      }
+    } catch (error) {
+      console.error('Error creating token contract:', error);
+      if (error instanceof Error) {
+        setTokenName(`Error: ${error.message}`);
+      } else {
+        setTokenName('Error: Unknown error occurred');
       }
     }
-  } catch (error) {
-    console.error('Error creating token contract:', error);
-    if (error instanceof Error) {
-      setTokenName(`Error: ${error.message}`);
-    } else {
-      setTokenName('Error: Unknown error occurred');
-    }
-  }
-};
+  };
 
   const checkPool = async () => {
     try {
       await initContracts();
+      if (!provider) {
+        setMessage('Error: Provider is not initialized.');
+        return;
+      }
+      
       const factory = new ethers.Contract(FACTORY_ADDRESS, IUniswapV3FactoryABI, provider);
       
       if (!ethers.isAddress(tokenA) || !ethers.isAddress(tokenB)) {

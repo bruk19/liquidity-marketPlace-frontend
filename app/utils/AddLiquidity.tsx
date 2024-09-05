@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { liquidityContractAddress, liquiditydAbi } from '../constants';
@@ -25,10 +25,23 @@ const AddLiquidity: React.FC<AddLiquidityProps> = ({ pools, onClose }) => {
   const handleAddLiquidity = async () => {
     try {
       await initContracts();
+
+      // Check if provider is initialized
+      if (!provider) {
+        setMessage('Provider is not initialized.');
+        return;
+      }
+
       const signer = await provider.getSigner();
       const pool = pools.find((p) => p.address === selectedPool);
       if (!pool) {
         setMessage('Selected pool not found');
+        return;
+      }
+
+      // Check if liquidityContract is initialized
+      if (!liquidityContract) {
+        setMessage('Liquidity contract is not initialized.');
         return;
       }
 
