@@ -1,4 +1,3 @@
-// AddLiquidity.tsx
 "use client";
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
@@ -26,21 +25,52 @@ const AddLiquidity: React.FC<AddLiquidityProps> = ({ pools, onClose }) => {
   const handleAddLiquidity = async () => {
     try {
       await initContracts();
+
+      // Check if provider is initialized
+      if (!provider) {
+        setMessage('Provider is not initialized.');
+        return;
+      }
+
       const signer = await provider.getSigner();
-      const pool = pools.find(p => p.address === selectedPool);
+      const pool = pools.find((p) => p.address === selectedPool);
       if (!pool) {
         setMessage('Selected pool not found');
         return;
       }
 
-      const token0Contract = new ethers.Contract(pool.token0, ['function approve(address spender, uint256 amount) public returns (bool)'], signer);
-      const token1Contract = new ethers.Contract(pool.token1, ['function approve(address spender, uint256 amount) public returns (bool)'], signer);
+      // Check if liquidityContract is initialized
+      if (!liquidityContract) {
+        setMessage('Liquidity contract is not initialized.');
+        return;
+      }
+
+      const token0Contract = new ethers.Contract(
+        pool.token0,
+        [
+          'function approve(address spender, uint256 amount) public returns (bool)',
+        ],
+        signer
+      );
+      const token1Contract = new ethers.Contract(
+        pool.token1,
+        [
+          'function approve(address spender, uint256 amount) public returns (bool)',
+        ],
+        signer
+      );
 
       // Approve the liquidity contract to spend the specified amounts
-      const approveTx0 = await token0Contract.approve(liquidityContractAddress, ethers.parseUnits(approveAmount, 18));
+      const approveTx0 = await token0Contract.approve(
+        liquidityContractAddress,
+        ethers.parseUnits(approveAmount, 18)
+      );
       await approveTx0.wait();
 
-      const approveTx1 = await token1Contract.approve(liquidityContractAddress, ethers.parseUnits(approveAmount, 18));
+      const approveTx1 = await token1Contract.approve(
+        liquidityContractAddress,
+        ethers.parseUnits(approveAmount, 18)
+      );
       await approveTx1.wait();
 
       // Add liquidity
@@ -89,7 +119,10 @@ const AddLiquidity: React.FC<AddLiquidityProps> = ({ pools, onClose }) => {
         onChange={(e) => setApproveAmount(e.target.value)}
         className="border p-2 rounded mb-2 w-full focus:outline-none focus:ring-2 focus:ring-orange-400"
       />
-      <button onClick={handleAddLiquidity} className="bg-orange-400 text-white px-4 py-2 rounded mb-2 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400">
+      <button
+        onClick={handleAddLiquidity}
+        className="bg-orange-400 text-white px-4 py-2 rounded mb-2 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400"
+      >
         Add Liquidity
       </button>
       <p>{message}</p>

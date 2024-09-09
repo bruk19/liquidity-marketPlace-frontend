@@ -1,7 +1,16 @@
-"use client";
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+'use client';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { ethers } from 'ethers';
-import { liquidityMarketAbi, liquidityMarketContractAddress } from '../constants';
+import {
+  liquidityMarketAbi,
+  liquidityMarketContractAddress,
+} from '../constants';
 import { getProvider, getSigner, setUpWeb3 } from '../web3';
 
 export type WalletContext = {
@@ -14,7 +23,9 @@ export type WalletContext = {
 const WalletProviderContext = createContext<WalletContext>({} as WalletContext);
 
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
-  const [contract, setContract] = useState<ethers.Contract | undefined>(undefined);
+  const [contract, setContract] = useState<ethers.Contract | undefined>(
+    undefined
+  );
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [chainId, setChainId] = useState<number | undefined>(undefined);
 
@@ -60,7 +71,12 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  console.log('WalletProvider:', { walletAddress, contract, chainId, connectWallet });
+  console.log('WalletProvider:', {
+    walletAddress,
+    contract,
+    chainId,
+    connectWallet,
+  });
 
   return (
     <WalletProviderContext.Provider
@@ -79,7 +95,9 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
 export const useWalletProviderContext = () => {
   const context = useContext(WalletProviderContext);
   if (!context) {
-    throw new Error('useWalletProviderContext must be used within a WalletProvider');
+    throw new Error(
+      'useWalletProviderContext must be used within a WalletProvider'
+    );
   }
   return context;
 };

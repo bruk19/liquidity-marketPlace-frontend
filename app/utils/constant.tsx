@@ -1,4 +1,3 @@
-// src/utils/web3.ts
 import { ethers } from 'ethers';
 import {
   icoMarketAbi,
@@ -9,20 +8,29 @@ import {
   liquiditydAbi,
 } from '../constants';
 
-// Check if window.ethereum is available
-if (!window.ethereum) {
-  throw new Error('MetaMask is not installed. Please install it to use this application.');
-}
+export let provider: ethers.BrowserProvider | null = null;
 
-// Create a provider
-export const provider = new ethers.BrowserProvider(window.ethereum);
+export const initProvider = () => {
+  if (typeof window !== 'undefined' && window.ethereum) {
+    provider = new ethers.BrowserProvider(window.ethereum);
+  } else {
+    console.error(
+      'MetaMask is not installed. Please install it to use this application.'
+    );
+    provider = null; // Handle this case as needed
+  }
+};
 
-// Define contract instances
-let liquidityMarketContract: ethers.Contract;
-let liquidityContract: ethers.Contract;
-let icoMarketContract: ethers.Contract;
+// Explicitly declare contract variables with initial type of null
+let liquidityMarketContract: ethers.Contract | null = null;
+let liquidityContract: ethers.Contract | null = null;
+let icoMarketContract: ethers.Contract | null = null;
 
 export const initContracts = async () => {
+  if (!provider) {
+    throw new Error('Provider is not initialized. Ensure MetaMask is installed.');
+  }
+
   const signer = await provider.getSigner();
 
   liquidityMarketContract = new ethers.Contract(
@@ -33,7 +41,7 @@ export const initContracts = async () => {
 
   liquidityContract = new ethers.Contract(
     liquidityContractAddress,
-    liquiditydAbi,
+    liquiditydAbi, // Ensure this is spelled correctly
     signer
   );
 
@@ -44,6 +52,11 @@ export const initContracts = async () => {
   );
 };
 
-initContracts();
+// Initialize provider and contracts
+initProvider();
+initContracts().catch(error => {
+  console.error('Error initializing contracts:', error);
+});
 
+// Export contracts
 export { liquidityMarketContract, liquidityContract, icoMarketContract };
